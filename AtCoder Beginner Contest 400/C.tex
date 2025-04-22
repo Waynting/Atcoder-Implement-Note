@@ -1,0 +1,78 @@
+\section*{好整數計數的數學推導}
+
+令一個正整數 $X$ 為「好整數」，當且僅當存在正整數 $a,b$ 使得
+\[
+X = 2^a \, b^2,\quad a\ge1,\;b\ge1.
+\]
+
+\subsection*{1. 指數拆分}
+
+將指數 $a$ 分為「奇數」和「偶數」兩種情形：
+
+\begin{enumerate}
+  \item 若 $a$ 為奇數，寫作 $a=2m+1$，則
+    \[
+      X = 2^{2m+1}\,b^2
+        = 2\,(2^m b)^2
+        = 2\,t^2,
+      \quad t = 2^m b.
+    \]
+    這一類好整數皆可寫成 $2\,t^2$。
+
+  \item 若 $a$ 為偶數，寫作 $a=2m$（且因 $a\ge1$，故 $m\ge1$），則
+    \[
+      X = 2^{2m}\,b^2
+        = 4\,(2^{\,m-1}b)^2
+        = 4\,t^2,
+      \quad t = 2^{\,m-1}b.
+    \]
+    這一類好整數皆可寫成 $4\,t^2$。
+\end{enumerate}
+
+注意 $\{2\,t^2\}$ 與 $\{4\,t^2\}$ 兩集合不重疊：若同時
+\[
+2\,t^2 = 4\,s^2
+\quad\Longrightarrow\quad
+t^2 = 2\,s^2,
+\]
+則 $(t/s)^2=2$，在整數範疇不可能成立。
+
+\subsection*{2. 分別計數}
+
+要統計所有 $X\le N$ 的好整數，只需分別計算以下兩個集合的大小，然後相加：
+
+\[
+\begin{aligned}
+  &\{\,X=2\,t^2 : 2\,t^2\le N\}
+    \;\Longrightarrow\;
+    t^2 \le \frac{N}{2}
+    \;\Longrightarrow\;
+    t \le \sqrt{\frac{N}{2}}
+    \;\Longrightarrow\;
+    \bigl\lfloor\sqrt{\tfrac{N}{2}}\bigr\rfloor, \\[6pt]
+  &\{\,X=4\,t^2 : 4\,t^2\le N\}
+    \;\Longrightarrow\;
+    t^2 \le \frac{N}{4}
+    \;\Longrightarrow\;
+    t \le \sqrt{\frac{N}{4}}
+    \;\Longrightarrow\;
+    \bigl\lfloor\sqrt{\tfrac{N}{4}}\bigr\rfloor.
+\end{aligned}
+\]
+
+因此，好整數的總數為
+\[
+\#\{X\le N\}
+= \Bigl\lfloor\sqrt{\tfrac{N}{2}}\Bigr\rfloor
++ \Bigl\lfloor\sqrt{\tfrac{N}{4}}\Bigr\rfloor.
+\]
+
+\subsection*{3. 程式實現}
+
+在 C++ 中，用
+\begin{verbatim}
+(ll) sqrt((long double)N/2)
+\end{verbatim}
+等價於 $\lfloor\sqrt{N/2}\rfloor$，同理
+\verb|(ll) sqrt((long double)N/4)| 等價於 $\lfloor\sqrt{N/4}\rfloor$。  
+將兩者相加，即可在 $O(1)$ 時間內得到答案。
